@@ -1,5 +1,5 @@
 {
-  "name": "Razer Tartarus via RP2040 converter (RadPad VIA)",
+  "name": "RadPad (Tartarus VIA)",
   "vendorId": "0x239A",
   "productId": "0x0001",
   "matrix": {
