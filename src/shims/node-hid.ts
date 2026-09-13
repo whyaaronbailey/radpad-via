@@ -16,13 +16,70 @@ type InputReportHandler = (message: Uint8Array) => boolean;
 const inputReportHandlers: {
   [path: string]: InputReportHandler[];
 } = {};
+// ---- Converter feature-report transport --------------------------------------
+// The Tartarus converter's PowerMic builds cannot expose VIA's raw HID interface:
+// PowerScribe binds the first HID collection under 0554:1001, so a second one
+// steals dictation. Instead the firmware carries VIA's 32-byte packets inside
+// the PowerMic's own 39-byte Feature report:
+//   host -> device  [0x56 'V', seq, packet(32)]
+//   device -> host  [0x56, seq, status, packet(32)]   status 1 = answer ready
+// The firmware answers from its main loop, not the USB interrupt, so the first
+// read can come back not-ready; poll until it is.
+const TUNNEL_FILTER = {vendorId: 0x0554, productId: 0x1001, usagePage: 0x01, usage: 0x00};
+const TUNNEL_MAGIC = 0x56;
+const TUNNEL_REPORT_LEN = 39;
+const TUNNEL_TIMEOUT_MS = 5000;
+
+const isTunnelDevice = (device: HIDDevice) =>
+  device.vendorId === TUNNEL_FILTER.vendorId &&
+  device.productId === TUNNEL_FILTER.productId &&
+  (device.collections?.some(
+    (collection) =>
+      collection.usagePage === TUNNEL_FILTER.usagePage &&
+      collection.usage === TUNNEL_FILTER.usage,
+  ) ?? false);
+
 const filterHIDDevices = (devices: HIDDevice[]) =>
-  devices.filter((device) =>
-    device.collections?.some(
-      (collection) =>
-        collection.usage === 0x61 && collection.usagePage === 0xff60,
-    ),
+  devices.filter(
+    (device) =>
+      device.collections?.some(
+        (collection) =>
+          collection.usage === 0x61 && collection.usagePage === 0xff60,
+      ) || isTunnelDevice(device),
   );
+
+let tunnelSeq = 0;
+let tunnelChain: Promise<unknown> = Promise.resolve();
+
+// One request/answer exchange over the Feature report. Chained, so two callers can
+// never interleave a SET with someone else's GET.
+const tunnelExchange = (device: HIDDevice, packet: Uint8Array) => {
+  const run = async () => {
+    const seq = (tunnelSeq = (tunnelSeq + 1) & 0xff);
+    const out = new Uint8Array(TUNNEL_REPORT_LEN);
+    out[0] = TUNNEL_MAGIC;
+    out[1] = seq;
+    out.set(packet.subarray(0, 32), 2);
+    await device.sendFeatureReport(0, out);
+    const started = Date.now();
+    for (;;) {
+      const dv = await device.receiveFeatureReport(0);
+      const a = new Uint8Array(dv.buffer, dv.byteOffset, dv.byteLength);
+      // Chrome has returned the report both with and without the report-id byte.
+      const o = a[0] === TUNNEL_MAGIC ? 0 : a[1] === TUNNEL_MAGIC ? 1 : -1;
+      if (o >= 0 && a[o + 1] === seq && a[o + 2] === 1) {
+        return a.slice(o + 3, o + 3 + 32);
+      }
+      if (Date.now() - started > TUNNEL_TIMEOUT_MS) {
+        throw new Error('converter did not answer the VIA request');
+      }
+      await new Promise((r) => setTimeout(r, 4));
+    }
+  };
+  const result = tunnelChain.then(run, run);
+  tunnelChain = result.catch(() => undefined);
+  return result;
+};
 
 export const QMK_CONSOLE_FILTER = {
   usagePage: 0xff31,
@@ -76,6 +133,7 @@ const ExtendedHID = {
           usagePage: 0xff60,
           usage: 0x61,
         },
+        TUNNEL_FILTER,
         QMK_CONSOLE_FILTER,
       ],
     });
@@ -137,7 +195,9 @@ const ExtendedHID = {
     async open() {
       if (this._hidDevice && !this._hidDevice._device.opened) {
         this.openPromise = this._hidDevice._device.open();
-        this.setupListeners();
+        if (!isTunnelDevice(this._hidDevice._device)) {
+          this.setupListeners();
+        }
         await this.openPromise;
       }
       return Promise.resolve();
@@ -214,7 +274,18 @@ const ExtendedHID = {
       }
       const data = new Uint8Array(arr.slice(1));
       lastWriteTimestamp = Date.now();
-      await this._hidDevice?._device.sendReport(0, data);
+      const device = this._hidDevice?._device;
+      if (device && isTunnelDevice(device)) {
+        // Hand the answer to read() exactly as an input report would arrive.
+        const message = await tunnelExchange(device, data);
+        if (eventWaitBuffer[this.path].length !== 0) {
+          (eventWaitBuffer[this.path].shift() as any)(message);
+        } else {
+          globalBuffer[this.path].push({currTime: Date.now(), message});
+        }
+        return;
+      }
+      await device?.sendReport(0, data);
     }
   },
 };
