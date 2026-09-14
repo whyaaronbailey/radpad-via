@@ -268,7 +268,7 @@
               ]
             },
             {
-              "label": "Brightness",
+              "label": "Brightness (0-255, default 255)",
               "type": "range",
               "options": [
                 0,
@@ -279,6 +279,18 @@
                 6,
                 5
               ]
+            },
+            {
+              "label": "Reset colours, brightness, effect and all per-key colours",
+              "type": "button",
+              "options": [
+                1
+              ],
+              "content": [
+                "id_trgb_reset_light",
+                6,
+                11
+              ]
             }
           ]
         },
@@ -286,7 +298,7 @@
           "label": "Scroll speed",
           "content": [
             {
-              "label": "Slow scroll, ms between wheel steps (x5)",
+              "label": "Slow scroll - slider x5 = ms (default 60 = 300 ms)",
               "type": "range",
               "options": [
                 8,
@@ -299,7 +311,7 @@
               ]
             },
             {
-              "label": "Slower scroll with thumb held (x5 ms)",
+              "label": "Slower scroll, thumb held - x5 = ms (default 80 = 400 ms)",
               "type": "range",
               "options": [
                 8,
@@ -312,7 +324,7 @@
               ]
             },
             {
-              "label": "Fast scroll, ms between wheel steps (x5)",
+              "label": "Fast scroll - slider x5 = ms (default 28 = 140 ms)",
               "type": "range",
               "options": [
                 4,
@@ -325,7 +337,7 @@
               ]
             },
             {
-              "label": "Faster scroll with thumb held (x5 ms)",
+              "label": "Faster scroll, thumb held - x5 = ms (default 25 = 125 ms)",
               "type": "range",
               "options": [
                 4,
@@ -336,6 +348,18 @@
                 6,
                 10
               ]
+            },
+            {
+              "label": "Reset all four scroll speeds to defaults",
+              "type": "button",
+              "options": [
+                1
+              ],
+              "content": [
+                "id_trgb_reset_speed",
+                6,
+                12
+              ]
             }
           ]
         },
@@ -343,7 +367,7 @@
           "label": "Per-key colours",
           "content": [
             {
-              "label": "Key",
+              "label": "Key / cell",
               "type": "dropdown",
               "options": [
                 [
@@ -425,6 +449,22 @@
                 [
                   "20",
                   19
+                ],
+                [
+                  "Scroll wheel",
+                  20
+                ],
+                [
+                  "Extra 1 (V2 thumb LED)",
+                  21
+                ],
+                [
+                  "Extra 2 (V2 thumb LED)",
+                  22
+                ],
+                [
+                  "Extra 3 (V2 thumb LED)",
+                  23
                 ]
               ],
               "content": [
@@ -440,7 +480,7 @@
               "content": [
                 "id_trgb_key01_on",
                 6,
-                20
+                64
               ]
             },
             {
@@ -450,7 +490,7 @@
               "content": [
                 "id_trgb_key01_color",
                 6,
-                40
+                96
               ]
             },
             {
@@ -460,7 +500,7 @@
               "content": [
                 "id_trgb_key02_on",
                 6,
-                21
+                65
               ]
             },
             {
@@ -470,7 +510,7 @@
               "content": [
                 "id_trgb_key02_color",
                 6,
-                41
+                97
               ]
             },
             {
@@ -480,7 +520,7 @@
               "content": [
                 "id_trgb_key03_on",
                 6,
-                22
+                66
               ]
             },
             {
@@ -490,7 +530,7 @@
               "content": [
                 "id_trgb_key03_color",
                 6,
-                42
+                98
               ]
             },
             {
@@ -500,7 +540,7 @@
               "content": [
                 "id_trgb_key04_on",
                 6,
-                23
+                67
               ]
             },
             {
@@ -510,7 +550,7 @@
               "content": [
                 "id_trgb_key04_color",
                 6,
-                43
+                99
               ]
             },
             {
@@ -520,7 +560,7 @@
               "content": [
                 "id_trgb_key05_on",
                 6,
-                24
+                68
               ]
             },
             {
@@ -530,7 +570,7 @@
               "content": [
                 "id_trgb_key05_color",
                 6,
-                44
+                100
               ]
             },
             {
@@ -540,7 +580,7 @@
               "content": [
                 "id_trgb_key06_on",
                 6,
-                25
+                69
               ]
             },
             {
@@ -550,7 +590,7 @@
               "content": [
                 "id_trgb_key06_color",
                 6,
-                45
+                101
               ]
             },
             {
@@ -560,7 +600,7 @@
               "content": [
                 "id_trgb_key07_on",
                 6,
-                26
+                70
               ]
             },
             {
@@ -570,7 +610,7 @@
               "content": [
                 "id_trgb_key07_color",
                 6,
-                46
+                102
               ]
             },
             {
@@ -580,7 +620,7 @@
               "content": [
                 "id_trgb_key08_on",
                 6,
-                27
+                71
               ]
             },
             {
@@ -590,7 +630,7 @@
               "content": [
                 "id_trgb_key08_color",
                 6,
-                47
+                103
               ]
             },
             {
@@ -600,7 +640,7 @@
               "content": [
                 "id_trgb_key09_on",
                 6,
-                28
+                72
               ]
             },
             {
@@ -610,7 +650,7 @@
               "content": [
                 "id_trgb_key09_color",
                 6,
-                48
+                104
               ]
             },
             {
@@ -620,7 +660,7 @@
               "content": [
                 "id_trgb_key10_on",
                 6,
-                29
+                73
               ]
             },
             {
@@ -630,7 +670,7 @@
               "content": [
                 "id_trgb_key10_color",
                 6,
-                49
+                105
               ]
             },
             {
@@ -640,7 +680,7 @@
               "content": [
                 "id_trgb_key11_on",
                 6,
-                30
+                74
               ]
             },
             {
@@ -650,7 +690,7 @@
               "content": [
                 "id_trgb_key11_color",
                 6,
-                50
+                106
               ]
             },
             {
@@ -660,7 +700,7 @@
               "content": [
                 "id_trgb_key12_on",
                 6,
-                31
+                75
               ]
             },
             {
@@ -670,7 +710,7 @@
               "content": [
                 "id_trgb_key12_color",
                 6,
-                51
+                107
               ]
             },
             {
@@ -680,7 +720,7 @@
               "content": [
                 "id_trgb_key13_on",
                 6,
-                32
+                76
               ]
             },
             {
@@ -690,7 +730,7 @@
               "content": [
                 "id_trgb_key13_color",
                 6,
-                52
+                108
               ]
             },
             {
@@ -700,7 +740,7 @@
               "content": [
                 "id_trgb_key14_on",
                 6,
-                33
+                77
               ]
             },
             {
@@ -710,7 +750,7 @@
               "content": [
                 "id_trgb_key14_color",
                 6,
-                53
+                109
               ]
             },
             {
@@ -720,7 +760,7 @@
               "content": [
                 "id_trgb_key15_on",
                 6,
-                34
+                78
               ]
             },
             {
@@ -730,7 +770,7 @@
               "content": [
                 "id_trgb_key15_color",
                 6,
-                54
+                110
               ]
             },
             {
@@ -740,7 +780,7 @@
               "content": [
                 "id_trgb_key16_on",
                 6,
-                35
+                79
               ]
             },
             {
@@ -750,7 +790,7 @@
               "content": [
                 "id_trgb_key16_color",
                 6,
-                55
+                111
               ]
             },
             {
@@ -760,7 +800,7 @@
               "content": [
                 "id_trgb_key17_on",
                 6,
-                36
+                80
               ]
             },
             {
@@ -770,7 +810,7 @@
               "content": [
                 "id_trgb_key17_color",
                 6,
-                56
+                112
               ]
             },
             {
@@ -780,7 +820,7 @@
               "content": [
                 "id_trgb_key18_on",
                 6,
-                37
+                81
               ]
             },
             {
@@ -790,7 +830,7 @@
               "content": [
                 "id_trgb_key18_color",
                 6,
-                57
+                113
               ]
             },
             {
@@ -800,7 +840,7 @@
               "content": [
                 "id_trgb_key19_on",
                 6,
-                38
+                82
               ]
             },
             {
@@ -810,7 +850,7 @@
               "content": [
                 "id_trgb_key19_color",
                 6,
-                58
+                114
               ]
             },
             {
@@ -820,7 +860,7 @@
               "content": [
                 "id_trgb_key20_on",
                 6,
-                39
+                83
               ]
             },
             {
@@ -830,7 +870,87 @@
               "content": [
                 "id_trgb_key20_color",
                 6,
-                59
+                115
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 20",
+              "label": "Own colour",
+              "type": "toggle",
+              "content": [
+                "id_trgb_key21_on",
+                6,
+                84
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 20",
+              "label": "Colour",
+              "type": "color",
+              "content": [
+                "id_trgb_key21_color",
+                6,
+                116
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 21",
+              "label": "Own colour",
+              "type": "toggle",
+              "content": [
+                "id_trgb_key22_on",
+                6,
+                85
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 21",
+              "label": "Colour",
+              "type": "color",
+              "content": [
+                "id_trgb_key22_color",
+                6,
+                117
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 22",
+              "label": "Own colour",
+              "type": "toggle",
+              "content": [
+                "id_trgb_key23_on",
+                6,
+                86
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 22",
+              "label": "Colour",
+              "type": "color",
+              "content": [
+                "id_trgb_key23_color",
+                6,
+                118
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 23",
+              "label": "Own colour",
+              "type": "toggle",
+              "content": [
+                "id_trgb_key24_on",
+                6,
+                87
+              ]
+            },
+            {
+              "showIf": "{id_trgb_key_sel} == 23",
+              "label": "Colour",
+              "type": "color",
+              "content": [
+                "id_trgb_key24_color",
+                6,
+                119
               ]
             }
           ]

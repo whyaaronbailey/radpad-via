@@ -31,7 +31,9 @@ const defaultStoreData = {
     showDesignTab: false,
     showConsoleTab: false,
     disableFastRemap: false,
-    ShowSliderValuesMode: 'Slider Only' as const,
+    // RadPad: show the number beside every slider, and let it be typed. The
+    // stock default hides it, which makes scroll speeds and brightness a guess.
+    ShowSliderValuesMode: 'Slider & Input Field' as const,
     renderMode: '2D' as const,
     themeMode: 'dark' as const,
     designDefinitionVersion: 'v3' as const,
